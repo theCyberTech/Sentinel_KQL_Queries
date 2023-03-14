@@ -1,0 +1,7 @@
+CommonSecurityLog
+| where DeviceProduct has "Connectra"
+| where DeviceAction has"Log In"
+| parse AdditionalExtensions with * "hostname=" hostname:string ";" *
+| parse AdditionalExtensions with * "host_type=" host_type:string ";" *
+| where isnotempty(hostname)
+| summarize count() by TimeGenerated, hostname, host_type, SourceUserName, DestinationUserName, SourceIP
